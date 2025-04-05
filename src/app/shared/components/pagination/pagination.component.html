@@ -1,13 +1,32 @@
 <nav>
   <ul class="pagination justify-content-center">
     <li class="page-item" [class.disabled]="currentPage === 1">
-      <a class="page-link" href="#" (click)="changePage(currentPage - 1)">Previous</a>
+      <a class="page-link" href="#" (click)="changePage(currentPage - 1, $event)">Previous</a>
     </li>
-    <li class="page-item" *ngFor="let page of pages" [class.active]="page === currentPage">
-      <a class="page-link" href="#" (click)="changePage(page)">{{ page }}</a>
+
+    <li class="page-item" [class.active]="currentPage === 1">
+      <a class="page-link" href="#" (click)="changePage(1, $event)">1</a>
     </li>
+
+    <li class="page-item disabled" *ngIf="showLeftEllipsis()">
+      <span class="page-link">...</span>
+    </li>
+
+    <li class="page-item" *ngFor="let page of visiblePages" [class.active]="page === currentPage"
+        [class.d-none]="page === 1 || page === totalPages">
+      <a class="page-link" href="#" (click)="changePage(page, $event)">{{ page }}</a>
+    </li>
+
+    <li class="page-item disabled" *ngIf="showRightEllipsis()">
+      <span class="page-link">...</span>
+    </li>
+
+    <li class="page-item" *ngIf="totalPages > 1" [class.active]="currentPage === totalPages">
+      <a class="page-link" href="#" (click)="changePage(totalPages, $event)">{{ totalPages }}</a>
+    </li>
+
     <li class="page-item" [class.disabled]="currentPage === totalPages">
-      <a class="page-link" href="#" (click)="changePage(currentPage + 1)">Next</a>
+      <a class="page-link" href="#" (click)="changePage(currentPage + 1, $event)">Next</a>
     </li>
   </ul>
 </nav>

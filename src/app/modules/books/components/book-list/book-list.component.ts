@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import Swal from 'sweetalert2';
 
 interface Author {
   id: string;
@@ -103,31 +104,78 @@ export class BookListComponent implements OnInit {
     if (this.editMode && book.id) {
       this.http.put(`${this.apiUrl}/books/${book.id}`, book).subscribe(
         () => {
+          Swal.fire(
+            '¡Actualizado!',
+            'El libro ha sido actualizado exitosamente.',
+            'success'
+          );
           this.loadBooks();
           this.closeModal();
         },
-        (error) => console.error('Error updating book:', error)
+        (error) => {
+          Swal.fire(
+            'Error',
+            'No se pudo actualizar el libro.',
+            'error'
+          );
+          console.error('Error updating book:', error);
+        }
       );
     } else {
       this.http.post(`${this.apiUrl}/books`, book).subscribe(
         () => {
+          Swal.fire(
+            '¡Guardado!',
+            'El libro ha sido guardado exitosamente.',
+            'success'
+          );
           this.loadBooks();
           this.closeModal();
         },
-        (error) => console.error('Error creating book:', error)
+        (error) => {
+          Swal.fire(
+            'Error',
+            'No se pudo guardar el libro.',
+            'error'
+          );
+          console.error('Error creating book:', error);
+        }
       );
     }
   }
 
   deleteBook(id: string) {
-    if (confirm('¿Está seguro de eliminar este libro?')) {
-      this.http.delete(`${this.apiUrl}/books/${id}`).subscribe(
-        () => {
-          this.loadBooks();
-        },
-        (error) => console.error('Error deleting book:', error)
-      );
-    }
+    Swal.fire({
+      title: '¿Está seguro?',
+      text: 'Esta acción no se puede revertir',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.http.delete(`${this.apiUrl}/books/${id}`).subscribe(
+          () => {
+            Swal.fire(
+              '¡Eliminado!',
+              'El libro ha sido eliminado.',
+              'success'
+            );
+            this.loadBooks();
+          },
+          (error) => {
+            Swal.fire(
+              'Error',
+              'No se pudo eliminar el libro.',
+              'error'
+            );
+            console.error('Error deleting book:', error);
+          }
+        );
+      }
+    });
   }
 
   onNewAuthor() {
@@ -137,10 +185,22 @@ export class BookListComponent implements OnInit {
   saveAuthor(author: Author) {
     this.http.post(`${this.apiUrl}/authors`, author).subscribe(
       () => {
+        Swal.fire(
+          '¡Guardado!',
+          'El autor ha sido guardado exitosamente.',
+          'success'
+        );
         this.loadAuthors();
         this.closeAuthorModal();
       },
-      (error) => console.error('Error creating author:', error)
+      (error) => {
+        Swal.fire(
+          'Error',
+          'No se pudo guardar el autor.',
+          'error'
+        );
+        console.error('Error saving author:', error);
+      }
     );
   }
 
