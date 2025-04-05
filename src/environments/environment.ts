@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'https://back-libros-production-021c.up.railway.app', // URL base para desarrollo con proxy
+  apiUrl: 'http://localhost:8080', // URL base para desarrollo con proxy
 };
 
 /*

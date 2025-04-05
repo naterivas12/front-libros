@@ -1,0 +1,64 @@
+<div class="modal" [class.show]="show" [style.display]="show ? 'block' : 'none'" [style.zIndex]="1050" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">{{ editMode ? 'Editar' : 'Nuevo' }} Libro</h5>
+        <button type="button" class="btn-close" (click)="onClose()"></button>
+      </div>
+      <form [formGroup]="bookForm" (ngSubmit)="onSubmit()">
+        <div class="modal-body">
+          <div class="mb-3">
+            <label class="form-label">Título</label>
+            <input type="text" class="form-control" formControlName="title">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Descripción</label>
+            <textarea class="form-control" formControlName="description"></textarea>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Año</label>
+            <input type="number" class="form-control" formControlName="year">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Autor</label>
+            <div class="input-group">
+              <select class="form-control" formControlName="authorId">
+                <option value="">Seleccione un autor</option>
+                <option *ngFor="let author of authors" [value]="author.id">
+                  {{ author.name }}
+                </option>
+              </select>
+              <button type="button" class="btn btn-outline-primary" (click)="onNewAuthor()">
+                <i class="bi bi-plus"></i>
+              </button>
+            </div>
+          </div>
+          <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" formControlName="published" id="published">
+            <label class="form-check-label" for="published">Publicado</label>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="onClose()">Cancelar</button>
+          <button type="submit" class="btn btn-primary" [disabled]="!bookForm.valid">
+            {{ editMode ? 'Actualizar' : 'Crear' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Author Modal -->
+<div class="modal-wrapper" *ngIf="showAuthorModal" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 1060; display: flex; align-items: center; justify-content: center;">
+  <app-author-modal
+    [show]="true"
+    [editMode]="false"
+    (close)="closeAuthorModal()"
+    (save)="saveAuthor($event)">
+  </app-author-modal>
+</div>
+
+<!-- Backdrop -->
+<div class="modal-backdrop fade show" *ngIf="show" [style.zIndex]="1040"></div>
+<div class="modal-backdrop fade show" *ngIf="showAuthorModal" [style.zIndex]="1055"></div>
