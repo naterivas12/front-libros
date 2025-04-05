@@ -1,27 +1,52 @@
 # TelcoBooks
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.2.19.
+Un sistema moderno de gestión de libros construido con Angular 11, que presenta una arquitectura modular y Bootstrap para un diseño responsive.
 
-## Development server
+## Características
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+- 📚 Operaciones CRUD completas para libros y autores
+- 🎯 Arquitectura modular para una mejor organización del código
+- 🎨 Interfaz de usuario responsive con Bootstrap
+- 📝 Validación de formularios y manejo de errores
+- 🔍 Funcionalidad de búsqueda
+- 📄 Soporte de paginación
+- 🚀 Formularios modales para una entrada de datos eficiente
 
-## Code scaffolding
+## Stack Tecnológico
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+- Angular 11
+- Bootstrap
+- Angular HttpClient
+- Formularios Reactivos
+- TypeScript
 
-## Build
+## Estructura del Proyecto
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+La aplicación sigue una arquitectura modular con módulos de características:
 
-## Running unit tests
+```
+src/
+├── app/
+│   ├── modules/
+│   │   ├── authors/
+│   │   ├── books/
+│   │   ├── dashboard/
+│   │   └── layout/
+│   ├── core/
+│   └── shared/
+```
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Servidor de Desarrollo
 
-## Running end-to-end tests
+Ejecuta `ng serve` para iniciar el servidor de desarrollo. Navega a `http://localhost:4200/`. La aplicación se recargará automáticamente si cambias cualquiera de los archivos fuente.
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+## Construcción
 
-## Further help
+Ejecuta `ng build` para construir el proyecto. Los archivos generados se almacenarán en el directorio `dist/`. Usa la bandera `--prod` para una construcción de producción.
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+## Integración con API
+
+La aplicación se conecta a una API REST en:
+```
+https://back-libros-production.up.railway.app/api
+```
