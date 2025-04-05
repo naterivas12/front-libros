@@ -3,22 +3,29 @@ import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
+    path: 'dashboard',
+    loadChildren: () =>
+      import('./modules/dashboard/dashboard.module').then((m) => m.DashboardModule),
+  },
+  {
     path: 'authors',
-    loadChildren: () => import('./modules/authors/authors.module').then(m => m.AuthorsModule)
+    loadChildren: () =>
+      import('./modules/authors/authors.module').then((m) => m.AuthorsModule),
   },
   {
     path: 'books',
-    loadChildren: () => import('./modules/books/books.module').then(m => m.BooksModule)
+    loadChildren: () =>
+      import('./modules/books/books.module').then((m) => m.BooksModule),
   },
   {
     path: '',
-    redirectTo: 'books',
-    pathMatch: 'full'
-  }
+    redirectTo: 'dashboard',
+    pathMatch: 'full',
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
