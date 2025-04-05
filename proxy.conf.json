@@ -1,0 +1,11 @@
+{
+  "/api/*": {
+    "target": "https://back-libros-production-021c.up.railway.app",
+    "secure": false,
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/api": "/api"
+    },
+    "logLevel": "debug"
+  }
+}

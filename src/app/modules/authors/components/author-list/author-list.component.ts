@@ -14,8 +14,9 @@ interface Author {
 })
 export class AuthorListComponent implements OnInit {
   private apiUrl = `${environment.apiUrl}/api`;
-  
+
   authors: Author[] = [];
+  filteredAuthors: Author[] = [];
   searchTerm = '';
   currentPage = 1;
   totalPages = 1;
@@ -23,17 +24,41 @@ export class AuthorListComponent implements OnInit {
   editMode = false;
   selectedAuthor: Author | null = null;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    console.log('AuthorListComponent initialized');
+  }
 
   ngOnInit() {
+    console.log('Loading authors...');
     this.loadAuthors();
   }
 
   loadAuthors() {
-    this.http.get<Author[]>(`${this.apiUrl}/authors`).subscribe(authors => {
-      this.authors = authors;
-      this.calculatePagination();
-    });
+    console.log('Making HTTP request to:', `${this.apiUrl}/authors`);
+    this.http.get<Author[]>(`${this.apiUrl}/authors`).subscribe(
+      (authors) => {
+        console.log('Authors received:', authors);
+        this.authors = authors;
+        this.filterAuthors();
+        this.calculatePagination();
+      },
+      (error) => {
+        console.error('Error loading authors:', error);
+      }
+    );
+  }
+
+  filterAuthors() {
+    if (!this.searchTerm.trim()) {
+      this.filteredAuthors = [...this.authors];
+    } else {
+      const search = this.searchTerm.toLowerCase().trim();
+      this.filteredAuthors = this.authors.filter(author => 
+        author.name.toLowerCase().includes(search) ||
+        author.gender.toLowerCase().includes(search)
+      );
+    }
+    this.calculatePagination();
   }
 
   openNewAuthorModal() {
@@ -44,7 +69,7 @@ export class AuthorListComponent implements OnInit {
 
   editAuthor(author: Author) {
     this.editMode = true;
-    this.selectedAuthor = author;
+    this.selectedAuthor = { ...author };
     this.showModal = true;
   }
 
@@ -54,24 +79,33 @@ export class AuthorListComponent implements OnInit {
   }
 
   saveAuthor(author: Author) {
-    if (this.editMode) {
-      this.http.put(`${this.apiUrl}/authors/${author.id}`, author).subscribe(() => {
-        this.loadAuthors();
-        this.closeModal();
-      });
+    if (this.editMode && author.id) {
+      this.http.put(`${this.apiUrl}/authors/${author.id}`, author).subscribe(
+        () => {
+          this.loadAuthors();
+          this.closeModal();
+        },
+        (error) => console.error('Error updating author:', error)
+      );
     } else {
-      this.http.post(`${this.apiUrl}/authors`, author).subscribe(() => {
-        this.loadAuthors();
-        this.closeModal();
-      });
+      this.http.post(`${this.apiUrl}/authors`, author).subscribe(
+        () => {
+          this.loadAuthors();
+          this.closeModal();
+        },
+        (error) => console.error('Error creating author:', error)
+      );
     }
   }
 
   deleteAuthor(id: string) {
     if (confirm('¿Está seguro de eliminar este autor?')) {
-      this.http.delete(`${this.apiUrl}/authors/${id}`).subscribe(() => {
-        this.loadAuthors();
-      });
+      this.http.delete(`${this.apiUrl}/authors/${id}`).subscribe(
+        () => {
+          this.loadAuthors();
+        },
+        (error) => console.error('Error deleting author:', error)
+      );
     }
   }
 
@@ -81,6 +115,19 @@ export class AuthorListComponent implements OnInit {
 
   private calculatePagination() {
     const itemsPerPage = 10;
-    this.totalPages = Math.ceil(this.authors.length / itemsPerPage);
+    this.totalPages = Math.ceil(this.filteredAuthors.length / itemsPerPage);
+  }
+
+  // Getter para obtener los autores de la página actual
+  get paginatedAuthors(): Author[] {
+    const itemsPerPage = 10;
+    const startIndex = (this.currentPage - 1) * itemsPerPage;
+    return this.filteredAuthors.slice(startIndex, startIndex + itemsPerPage);
+  }
+
+  // Método para detectar cambios en la búsqueda
+  onSearch() {
+    this.currentPage = 1; // Resetear a la primera página
+    this.filterAuthors();
   }
 }

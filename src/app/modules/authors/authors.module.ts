@@ -1,8 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../../shared/shared.module';
+
 import { AuthorListComponent } from './components/author-list/author-list.component';
-import { AuthorModalComponent } from './components/author-modal/author-modal.component';
 
 const routes: Routes = [
   {
@@ -13,10 +16,13 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [
-    AuthorListComponent,
-    AuthorModalComponent
+    AuthorListComponent
   ],
   imports: [
+    CommonModule,
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule,
     SharedModule,
     RouterModule.forChild(routes)
   ]

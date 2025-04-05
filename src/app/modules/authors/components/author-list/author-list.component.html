@@ -1,14 +1,12 @@
-<!-- Search and New Button -->
 <div class="d-flex justify-content-between align-items-center mt-3 mb-3">
   <div class="input-group w-25">
-    <input type="text" class="form-control" placeholder="Buscar..." [(ngModel)]="searchTerm">
+    <input type="text" class="form-control" placeholder="Buscar..." [(ngModel)]="searchTerm" (ngModelChange)="onSearch()">
   </div>
   <button class="btn btn-primary" (click)="openNewAuthorModal()">
     <i class="bi bi-plus"></i> Nuevo
   </button>
 </div>
 
-<!-- Authors Table -->
 <div class="table-responsive">
   <table class="table table-striped">
     <thead>
@@ -20,7 +18,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let author of authors">
+      <tr *ngFor="let author of paginatedAuthors">
         <td>{{ author.id }}</td>
         <td>{{ author.name }}</td>
         <td>{{ author.gender }}</td>
@@ -33,18 +31,19 @@
           </button>
         </td>
       </tr>
+      <tr *ngIf="paginatedAuthors.length === 0">
+        <td colspan="4" class="text-center">No se encontraron autores</td>
+      </tr>
     </tbody>
   </table>
 </div>
 
-<!-- Pagination -->
-<app-pagination 
+<app-pagination
   [currentPage]="currentPage"
   [totalPages]="totalPages"
   (pageChange)="onPageChange($event)">
 </app-pagination>
 
-<!-- Author Modal -->
 <app-author-modal
   [show]="showModal"
   [editMode]="editMode"

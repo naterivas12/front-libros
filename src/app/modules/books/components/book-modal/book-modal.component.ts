@@ -18,7 +18,21 @@ interface Book {
 
 @Component({
   selector: 'app-book-modal',
-  templateUrl: './book-modal.component.html'
+  templateUrl: './book-modal.component.html',
+  styles: [`
+    .modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.5);
+      z-index: 1040;
+    }
+    .modal {
+      z-index: 1050;
+    }
+  `]
 })
 export class BookModalComponent implements OnInit, OnChanges {
   @Input() show = false;
@@ -27,6 +41,7 @@ export class BookModalComponent implements OnInit, OnChanges {
   @Input() authors: Author[] = [];
   @Output() close = new EventEmitter<void>();
   @Output() save = new EventEmitter<Book>();
+  @Output() newAuthor = new EventEmitter<void>();
 
   bookForm: FormGroup;
 
@@ -61,6 +76,10 @@ export class BookModalComponent implements OnInit, OnChanges {
     if (this.bookForm.valid) {
       this.save.emit(this.bookForm.value);
     }
+  }
+
+  onNewAuthor() {
+    this.newAuthor.emit();
   }
 
   private resetForm() {

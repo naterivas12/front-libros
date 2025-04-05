@@ -7,18 +7,12 @@ import { BookModalComponent } from './components/book-modal/book-modal.component
 const routes: Routes = [
   {
     path: '',
-    component: BookListComponent
-  }
+    component: BookListComponent,
+  },
 ];
 
 @NgModule({
-  declarations: [
-    BookListComponent,
-    BookModalComponent
-  ],
-  imports: [
-    SharedModule,
-    RouterModule.forChild(routes)
-  ]
+  declarations: [BookListComponent, BookModalComponent],
+  imports: [SharedModule, RouterModule.forChild(routes)],
 })
-export class BooksModule { }
+export class BooksModule {}

@@ -1,14 +1,12 @@
-<!-- Search and New Button -->
 <div class="d-flex justify-content-between align-items-center mt-3 mb-3">
   <div class="input-group w-25">
-    <input type="text" class="form-control" placeholder="Buscar..." [(ngModel)]="searchTerm">
+    <input type="text" class="form-control" placeholder="Buscar..." [(ngModel)]="searchTerm" (ngModelChange)="onSearch()">
   </div>
   <button class="btn btn-primary" (click)="openNewBookModal()">
     <i class="bi bi-plus"></i> Nuevo
   </button>
 </div>
 
-<!-- Books Table -->
 <div class="table-responsive">
   <table class="table table-striped">
     <thead>
@@ -23,12 +21,12 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let book of books">
+      <tr *ngFor="let book of paginatedBooks">
         <td>{{ book.id }}</td>
         <td>{{ book.title }}</td>
         <td>{{ book.description }}</td>
         <td>{{ book.year }}</td>
-        <td>{{ book.author?.name }}</td>
+        <td>{{ getAuthorName(book.authorId) }}</td>
         <td>
           <i class="bi" [ngClass]="{'bi-check-circle-fill text-success': book.published, 'bi-x-circle-fill text-danger': !book.published}"></i>
         </td>
@@ -41,23 +39,33 @@
           </button>
         </td>
       </tr>
+      <tr *ngIf="paginatedBooks.length === 0">
+        <td colspan="7" class="text-center">No se encontraron libros</td>
+      </tr>
     </tbody>
   </table>
 </div>
 
-<!-- Pagination -->
-<app-pagination 
+<app-pagination
   [currentPage]="currentPage"
   [totalPages]="totalPages"
   (pageChange)="onPageChange($event)">
 </app-pagination>
 
-<!-- Book Modal -->
 <app-book-modal
   [show]="showModal"
   [editMode]="editMode"
   [book]="selectedBook"
   [authors]="authors"
   (close)="closeModal()"
-  (save)="saveBook($event)">
+  (save)="saveBook($event)"
+  (newAuthor)="onNewAuthor()">
 </app-book-modal>
+
+<!-- Author Modal -->
+<app-author-modal
+  [show]="showAuthorModal"
+  [editMode]="false"
+  (close)="closeAuthorModal()"
+  (save)="saveAuthor($event)">
+</app-author-modal>
