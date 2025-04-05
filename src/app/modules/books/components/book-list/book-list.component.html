@@ -1,0 +1,63 @@
+<!-- Search and New Button -->
+<div class="d-flex justify-content-between align-items-center mt-3 mb-3">
+  <div class="input-group w-25">
+    <input type="text" class="form-control" placeholder="Buscar..." [(ngModel)]="searchTerm">
+  </div>
+  <button class="btn btn-primary" (click)="openNewBookModal()">
+    <i class="bi bi-plus"></i> Nuevo
+  </button>
+</div>
+
+<!-- Books Table -->
+<div class="table-responsive">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Título</th>
+        <th>Descripción</th>
+        <th>Año</th>
+        <th>Autor</th>
+        <th>Publicado</th>
+        <th>Acción</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let book of books">
+        <td>{{ book.id }}</td>
+        <td>{{ book.title }}</td>
+        <td>{{ book.description }}</td>
+        <td>{{ book.year }}</td>
+        <td>{{ book.author?.name }}</td>
+        <td>
+          <i class="bi" [ngClass]="{'bi-check-circle-fill text-success': book.published, 'bi-x-circle-fill text-danger': !book.published}"></i>
+        </td>
+        <td>
+          <button class="btn btn-sm btn-primary me-2" (click)="editBook(book)">
+            <i class="bi bi-pencil"></i>
+          </button>
+          <button class="btn btn-sm btn-danger" (click)="deleteBook(book.id)">
+            <i class="bi bi-trash"></i>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Pagination -->
+<app-pagination 
+  [currentPage]="currentPage"
+  [totalPages]="totalPages"
+  (pageChange)="onPageChange($event)">
+</app-pagination>
+
+<!-- Book Modal -->
+<app-book-modal
+  [show]="showModal"
+  [editMode]="editMode"
+  [book]="selectedBook"
+  [authors]="authors"
+  (close)="closeModal()"
+  (save)="saveBook($event)">
+</app-book-modal>

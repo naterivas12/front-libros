@@ -1,0 +1,46 @@
+<div class="modal fade" [ngClass]="{'show': show}" *ngIf="show">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">{{ editMode ? 'Editar Libro' : 'Nuevo Libro' }}</h5>
+        <button type="button" class="btn-close" (click)="onClose()"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="bookForm">
+          <div class="mb-3">
+            <label class="form-label">Título</label>
+            <input type="text" class="form-control" formControlName="title">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Descripción</label>
+            <textarea class="form-control" formControlName="description" rows="3"></textarea>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Autor</label>
+            <div class="input-group">
+              <select class="form-control" formControlName="authorId">
+                <option value="">Seleccionar autor</option>
+                <option *ngFor="let author of authors" [value]="author.id">{{ author.name }}</option>
+              </select>
+              <button class="btn btn-outline-secondary" type="button" (click)="onNewAuthor()">
+                Nuevo Autor
+              </button>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Año</label>
+            <input type="number" class="form-control" formControlName="year">
+          </div>
+          <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" formControlName="published" id="publishedCheck">
+            <label class="form-check-label" for="publishedCheck">Publicado</label>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="onClose()">Cancelar</button>
+        <button type="button" class="btn btn-primary" (click)="onSave()">Aceptar</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,35 @@
+.sidebar {
+  min-height: calc(100vh - 56px);
+  border-right: 1px solid #dee2e6;
+}
+
+.main-content {
+  padding: 20px;
+}
+
+.modal.show {
+  display: block;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.table td {
+  vertical-align: middle;
+}
+
+.btn-sm {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+}
+
+.pagination {
+  margin-top: 20px;
+  margin-bottom: 0;
+}
+
+.form-check {
+  margin-bottom: 0;
+}
+
+.navbar-brand img {
+  margin-right: 10px;
+}
