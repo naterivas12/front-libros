@@ -3,11 +3,13 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PaginationComponent } from './components/pagination/pagination.component';
 import { AuthorModalComponent } from './components/author-modal/author-modal.component';
+import { BookModalComponent } from './components/book-modal/book-modal.component';
 
 @NgModule({
   declarations: [
     PaginationComponent,
-    AuthorModalComponent
+    AuthorModalComponent,
+    BookModalComponent
   ],
   imports: [
     CommonModule,
@@ -19,7 +21,8 @@ import { AuthorModalComponent } from './components/author-modal/author-modal.com
     FormsModule,
     ReactiveFormsModule,
     PaginationComponent,
-    AuthorModalComponent
+    AuthorModalComponent,
+    BookModalComponent
   ],
 })
 export class SharedModule {}
