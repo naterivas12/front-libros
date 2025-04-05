@@ -5,13 +5,17 @@ import { PaginationComponent } from './components/pagination/pagination.componen
 import { AuthorModalComponent } from './components/author-modal/author-modal.component';
 import { BookModalComponent } from './components/book-modal/book-modal.component';
 import { SkeletonComponent } from './components/skeleton/skeleton.component';
+import { FallbackImageDirective } from './directives/fallback-image.directive';
+import { DateFormatDirective } from './directives/date-format.directive';
 
 @NgModule({
   declarations: [
     PaginationComponent,
     AuthorModalComponent,
     BookModalComponent,
-    SkeletonComponent
+    SkeletonComponent,
+    FallbackImageDirective,
+    DateFormatDirective
   ],
   imports: [
     CommonModule,
@@ -25,7 +29,9 @@ import { SkeletonComponent } from './components/skeleton/skeleton.component';
     PaginationComponent,
     AuthorModalComponent,
     BookModalComponent,
-    SkeletonComponent
+    SkeletonComponent,
+    FallbackImageDirective,
+    DateFormatDirective
   ],
 })
 export class SharedModule {}
