@@ -7,7 +7,36 @@
   </button>
 </div>
 
-<div class="table-responsive">
+<!-- Loading Skeleton -->
+<div *ngIf="loading" class="table-responsive">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Título</th>
+        <th>Descripción</th>
+        <th>Año</th>
+        <th>Autor</th>
+        <th>Publicado</th>
+        <th>Acción</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let i of [1,2,3,4,5,6]">
+        <td><app-skeleton type="text"></app-skeleton></td>
+        <td><app-skeleton type="text"></app-skeleton></td>
+        <td><app-skeleton type="text"></app-skeleton></td>
+        <td><app-skeleton type="text"></app-skeleton></td>
+        <td><app-skeleton type="text"></app-skeleton></td>
+        <td><app-skeleton type="text"></app-skeleton></td>
+        <td><app-skeleton type="text"></app-skeleton></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Books List -->
+<div *ngIf="!loading" class="table-responsive">
   <table class="table table-striped">
     <thead>
       <tr>

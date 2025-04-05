@@ -11,7 +11,8 @@ interface Author {
 
 @Component({
   selector: 'app-author-list',
-  templateUrl: './author-list.component.html'
+  templateUrl: './author-list.component.html',
+  styleUrls: ['./author-list.component.css']
 })
 export class AuthorListComponent implements OnInit {
   private apiUrl = `${environment.apiUrl}/api`;
@@ -21,9 +22,11 @@ export class AuthorListComponent implements OnInit {
   searchTerm = '';
   currentPage = 1;
   totalPages = 1;
+  loading = true;
+
   showModal = false;
-  editMode = false;
   selectedAuthor: Author | null = null;
+  editMode = false;
 
   constructor(private http: HttpClient) {
     console.log('AuthorListComponent initialized');
@@ -35,6 +38,7 @@ export class AuthorListComponent implements OnInit {
   }
 
   loadAuthors() {
+    this.loading = true;
     console.log('Making HTTP request to:', `${this.apiUrl}/authors`);
     this.http.get<Author[]>(`${this.apiUrl}/authors`).subscribe(
       (authors) => {
@@ -42,9 +46,11 @@ export class AuthorListComponent implements OnInit {
         this.authors = authors;
         this.filterAuthors();
         this.calculatePagination();
+        this.loading = false;
       },
       (error) => {
         console.error('Error loading authors:', error);
+        this.loading = false;
       }
     );
   }
@@ -54,7 +60,7 @@ export class AuthorListComponent implements OnInit {
       this.filteredAuthors = [...this.authors];
     } else {
       const search = this.searchTerm.toLowerCase().trim();
-      this.filteredAuthors = this.authors.filter(author => 
+      this.filteredAuthors = this.authors.filter(author =>
         author.name.toLowerCase().includes(search) ||
         author.gender.toLowerCase().includes(search)
       );
@@ -162,13 +168,13 @@ export class AuthorListComponent implements OnInit {
   }
 
   private calculatePagination() {
-    const itemsPerPage = 10;
+    const itemsPerPage = 5;
     this.totalPages = Math.ceil(this.filteredAuthors.length / itemsPerPage);
   }
 
   // Getter para obtener los autores de la página actual
   get paginatedAuthors(): Author[] {
-    const itemsPerPage = 10;
+    const itemsPerPage = 5;
     const startIndex = (this.currentPage - 1) * itemsPerPage;
     return this.filteredAuthors.slice(startIndex, startIndex + itemsPerPage);
   }

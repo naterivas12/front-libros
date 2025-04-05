@@ -25,7 +25,7 @@ interface Book {
 })
 export class BookListComponent implements OnInit {
   private apiUrl = `${environment.apiUrl}/api`;
-  
+
   books: Book[] = [];
   filteredBooks: Book[] = [];
   authors: Author[] = [];
@@ -36,6 +36,7 @@ export class BookListComponent implements OnInit {
   showAuthorModal = false;
   editMode = false;
   selectedBook: Book | null = null;
+  loading = true;
 
   constructor(private http: HttpClient) {
     this.loadAuthors();
@@ -46,13 +47,18 @@ export class BookListComponent implements OnInit {
   }
 
   loadBooks() {
+    this.loading = true;
     this.http.get<Book[]>(`${this.apiUrl}/books`).subscribe(
       (books) => {
         this.books = books;
         this.filterBooks();
         this.calculatePagination();
+        this.loading = false;
       },
-      (error) => console.error('Error loading books:', error)
+      (error) => {
+        console.error('Error loading books:', error);
+        this.loading = false;
+      }
     );
   }
 
@@ -70,7 +76,7 @@ export class BookListComponent implements OnInit {
       this.filteredBooks = [...this.books];
     } else {
       const search = this.searchTerm.toLowerCase().trim();
-      this.filteredBooks = this.books.filter(book => 
+      this.filteredBooks = this.books.filter(book =>
         book.title.toLowerCase().includes(search) ||
         book.description.toLowerCase().includes(search) ||
         book.year.toString().includes(search)
@@ -214,13 +220,13 @@ export class BookListComponent implements OnInit {
   }
 
   private calculatePagination() {
-    const itemsPerPage = 10;
+    const itemsPerPage = 6;
     this.totalPages = Math.ceil(this.filteredBooks.length / itemsPerPage);
   }
 
   // Getter para obtener los libros de la página actual
   get paginatedBooks(): Book[] {
-    const itemsPerPage = 10;
+    const itemsPerPage = 6;
     const startIndex = (this.currentPage - 1) * itemsPerPage;
     return this.filteredBooks.slice(startIndex, startIndex + itemsPerPage);
   }

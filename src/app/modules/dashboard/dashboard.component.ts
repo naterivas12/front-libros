@@ -69,12 +69,12 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     const chartDom = document.getElementById('booksChart');
     if (chartDom) {
       this.booksChart = echarts.init(chartDom);
-      const option = {
-        title: {
+    const option = {
+      title: {
           text: 'Libros por Año',
           left: 'center'
-        },
-        tooltip: {
+      },
+      tooltip: {
           trigger: 'axis',
           axisPointer: {
             type: 'shadow'
@@ -85,18 +85,18 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
           right: '4%',
           bottom: '3%',
           containLabel: true
-        },
-        xAxis: {
-          type: 'category',
+      },
+      xAxis: {
+        type: 'category',
           data: Object.keys(yearCounts),
           axisLabel: {
             rotate: 45
           }
-        },
-        yAxis: {
-          type: 'value'
-        },
-        series: [{
+      },
+      yAxis: {
+        type: 'value'
+      },
+      series: [{
           name: 'Cantidad de Libros',
           type: 'bar',
           data: Object.values(yearCounts),
@@ -116,8 +116,8 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private initializePublishedBooksChart() {
-    const published = this.books.filter(book => book.published).length;
-    const unpublished = this.books.length - published;
+      const published = this.books.filter(book => book.published).length;
+      const unpublished = this.books.length - published;
 
     const chartDom = document.getElementById('publishedChart');
     if (chartDom) {
@@ -263,7 +263,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
               }, {
                 offset: 1,
                 color: 'rgba(25, 118, 210, 0.1)'
-              }]
+        }]
             }
           }
         }]
@@ -322,5 +322,4 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     this.publishedChart?.dispose();
     this.authorGenderChart?.dispose();
     this.lineChart?.dispose();
-  }
-}
+  }}

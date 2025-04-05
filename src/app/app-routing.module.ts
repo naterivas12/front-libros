@@ -17,11 +17,11 @@ const routes: Routes = [
     loadChildren: () =>
       import('./modules/books/books.module').then((m) => m.BooksModule),
   },
-  {
-    path: '',
-    redirectTo: 'dashboard',
-    pathMatch: 'full',
-  },
+  // {
+  //   path: '',
+  //   redirectTo: 'dashboard',
+  //   pathMatch: 'full',
+  // },
 ];
 
 @NgModule({
